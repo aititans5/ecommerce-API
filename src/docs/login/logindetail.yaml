@@ -1,0 +1,25 @@
+tags:
+  - add login detail.
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+  - name: body
+    description: The body should contain the user login detail from where user login.
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "userid"
+      properties:
+        userid:
+          type: "number"
+          example: "1"
+responses:
+  200:
+    description: When a user successfully login the system
+
+  401:
+    description: When user fails to login the system due to bad request or authentication failure
