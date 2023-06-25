@@ -1,3 +1,5 @@
+import json
+
 from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
 from flask import Blueprint, request, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -6,7 +8,8 @@ from flask_jwt_extended import jwt_required, create_access_token, create_refresh
 from src.database import userdetail, db
 from flasgger import swag_from
 import datetime
-import jsonpickle
+from src.datamodel.userdetailBo import userdetailcls
+from src.utility.json_utility import json_default
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
@@ -114,9 +117,16 @@ def me():
     }), HTTP_200_OK
 
 @auth.get("/getAllActiveUser")
+@swag_from('./docs/auth/allactiveUser.yaml')
 def getAllActiveUser():
     activeusers = userdetail.query.filter_by(activeuser='Y').all()
-    jsonstr= jsonpickle.encode(activeusers)
+    lst = []
+    for x in activeusers:
+        obj = userdetailcls()
+        obj.setObjFromOrMObj(x)
+        lst.append(obj)
+
+    jsonstr = json.dumps(lst, default=json_default, indent=4)
     return jsonstr, HTTP_200_OK
 
 @auth.get('/token/refresh')
