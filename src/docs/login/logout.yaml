@@ -1,0 +1,25 @@
+tags:
+  - add logout detail.
+
+parameters:
+  - in: header
+    name: Authorization
+    required: true
+  - name: body
+    description: The body should contain the userid from where user want to logout from session.
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "loginid"
+      properties:
+        loginid:
+          type: "number"
+          example: "1"
+responses:
+  200:
+    description: When a user successfully logout from a system
+
+  401:
+    description: When user fails to logout the system due to bad request or authentication failure

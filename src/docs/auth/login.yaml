@@ -1,0 +1,27 @@
+tags:
+  - Authorize User login
+
+parameters:
+  - name: body
+    description: The body should contain the user Login data
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "email"
+        - "password"
+      properties:
+        email:
+          type: "email"
+          example: "xyz@gmail.com"
+        password:
+          type: "string"
+          format: password
+          example: "********"
+responses:
+  200:
+    description: When a user successfully logs in
+
+  401:
+    description: When user fails to login due to authentication error
