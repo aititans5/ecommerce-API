@@ -1,5 +1,3 @@
-from typing import List
-
 from src.database import userdetail
 
 

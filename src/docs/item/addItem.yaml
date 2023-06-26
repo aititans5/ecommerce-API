@@ -1,0 +1,37 @@
+tags:
+  - addItem
+parameters:
+  - name: body
+    description: The body should contain the item information to add in Cart.
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "categoryid"
+        - "qty"
+        - "imagename"
+        - "price"
+        - "itemname"
+      properties:
+        categoryid:
+          type: "integer"
+          example: "1"
+        qty:
+          type: "integer"
+          example: "20"
+        imagename:
+          type: "string"
+          example: "https://github.com/abhishah1608/item-images/blob/main/Apple.jpg"
+        price:
+          type: "double"
+          example: "3.75"
+        itemname:
+          type: "string"
+          example: "Apple"
+responses:
+  201:
+    description: item added successfully in Cart
+
+  400:
+    description: Fails to add item due to bad request data

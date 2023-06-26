@@ -33,10 +33,10 @@ def register():
     if not validators.email(email):
         return jsonify({'error': "Email is not valid"}), HTTP_400_BAD_REQUEST
 
-    if userdetail.query.filter_by(email=email).first() is not None:
+    if db.session.query(userdetail).filter_by(email=email).first() is not None:
         return jsonify({'error': "Email is taken"}), HTTP_409_CONFLICT
 
-    if userdetail.query.filter_by(username=username).first() is not None:
+    if db.session.query(userdetail).filter_by(username=username).first() is not None:
         return jsonify({'error': "username is taken"}), HTTP_409_CONFLICT
 
     pwd_hash = generate_password_hash(password)
@@ -59,7 +59,7 @@ def register():
 def login():
     email = request.json.get('email', '')
     password = request.json.get('password', '')
-    user = userdetail.query.filter_by(email=email, activeuser='Y').first()
+    user = db.session.query(userdetail).filter_by(email=email, activeuser='Y').first()
 
     if user:
         is_pass_correct = check_password_hash(user.password, password)
@@ -87,7 +87,7 @@ def change_password():
     password = request.json.get('password', '')
     new_password = request.json.get('new_password', '')
 
-    user = userdetail.query.filter_by(email=email, activeuser='Y').first()
+    user = db.session.query(userdetail).filter_by(email=email, activeuser='Y').first()
 
     if user:
         is_pass_correct = check_password_hash(user.password, password)
@@ -110,7 +110,7 @@ def change_password():
 @jwt_required()
 def me():
     user_id = get_jwt_identity()
-    user = userdetail.query.filter_by(userid=user_id).first()
+    user = db.session.query(userdetail).filter_by(userid=user_id).first()
     return jsonify({
         'username': user.username,
         'email': user.email
@@ -119,7 +119,7 @@ def me():
 @auth.get("/getAllActiveUser")
 @swag_from('./docs/auth/allactiveUser.yaml')
 def getAllActiveUser():
-    activeusers = userdetail.query.filter_by(activeuser='Y').all()
+    activeusers = db.session.query(userdetail).filter_by(activeuser='Y').all()
     lst = []
     for x in activeusers:
         obj = userdetailcls()
