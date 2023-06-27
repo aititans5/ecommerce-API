@@ -9,14 +9,6 @@ class itemcls(object):
         self.price = None
         self.itemname = None
 
-    def __init__(self,categoryid, itemid, qty, imagename, price, itemname):
-        self.categoryid = categoryid
-        self.itemid = itemid
-        self.qty = qty
-        self.imagename = imagename
-        self.price = price
-        self.itemname = itemname
-
     def setObjFromOrMObj(self, ormitem: items):
         self.itemid = ormitem.itemid
         self.categoryid = ormitem.categoryid
