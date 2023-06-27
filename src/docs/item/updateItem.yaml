@@ -1,0 +1,29 @@
+tags:
+  - update Item's price or qty based on field member
+parameters:
+  - name: body
+    description: The body should contain the item information which needs to be updated in Cart.
+    in: body
+    required: true
+    schema:
+      type: object
+      required:
+        - "itemname"
+        - "field"
+        - "value"
+      properties:
+        itemname:
+          type: "string"
+          example: "Apple"
+        field:
+          type: "string"
+          example: "qty or price"
+        value:
+          type: "decimal"
+          example: "3.27"
+responses:
+  201:
+    description: item updated successfully in Cart
+
+  400:
+    description: Fails to update item due to bad request data

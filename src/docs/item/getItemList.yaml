@@ -1,0 +1,14 @@
+tags:
+  - get all item list available in the ecommerce Application.
+parameters:
+  - in: query
+    name: categoryid
+    schema:
+      type: integer
+    required: true
+responses:
+  200:
+    description: Get all items available in Cart Based on CategoryId , CateogryId = 1 (Fruits) and 2 (Vegetables)
+
+  401:
+    description: internal service error.

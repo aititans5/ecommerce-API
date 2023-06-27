@@ -1,0 +1,10 @@
+tags:
+  - get all active User account.
+
+
+responses:
+  200:
+    description: Get all active users
+
+  401:
+    description: internal service error.

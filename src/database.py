@@ -24,10 +24,11 @@ class logindetail(db.Model):
     browser = db.Column(db.String(250), nullable = False)
     ip_address = db.Column(db.String(250), nullable = False)
 
+# class to define item table.
 class items(db.Model):
     itemid = db.Column(db.Integer, primary_key=True)
-    categoryid = db.Column(db.Integer, unique=True, nullable=False)
-    gty = db.Column(db.Integer, unique=True, nullable=False)
-    imagename = db.Column(db.String(500), unique=True, nullable=False)
-    price = db.Column(db.Double, unique=True, nullable=False)
+    categoryid = db.Column(db.Integer, nullable=False)
+    qty = db.Column(db.Integer, nullable=False)
+    imagename = db.Column(db.String(500), nullable=False)
+    price = db.Column(db.Double, nullable=False)
     itemname = db.Column(db.String(500), unique=True, nullable=False)
