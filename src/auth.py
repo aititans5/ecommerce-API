@@ -1,15 +1,16 @@
 import json
-
-from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
 from flask import Blueprint, request, jsonify
 from werkzeug.security import check_password_hash, generate_password_hash
 import validators
 from flask_jwt_extended import jwt_required, create_access_token, create_refresh_token, get_jwt_identity
-from src.database import userdetail, db
 from flasgger import swag_from
 import datetime
+
+from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
+from src.database import userdetail, db
 from src.datamodel.userdetailBo import userdetailcls
 from src.utility.json_utility import json_default
+from src.utility import sendemail
 
 auth = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
 
@@ -43,14 +44,14 @@ def register():
 
     user = userdetail(username=username, password=pwd_hash, email=email, name=name, activeuser='Y',created_at = datetime.datetime.utcnow())
     db.session.add(user)
+    msg = "User has registered successfully with username- " + username;
+    sendemail.sendPlainTextEmail(email, msg)
     db.session.commit()
-
     return jsonify({
         'message': "User created",
         'user': {
             'username': username, "email": email
         }
-
     }), HTTP_201_CREATED
 
 
@@ -137,4 +138,4 @@ def refresh_users_token():
 
     return jsonify({
         'access': access
-    }), HTTP_200_OK
+    }), HTTP_200_OK,

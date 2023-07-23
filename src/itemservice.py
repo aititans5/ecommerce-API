@@ -4,7 +4,7 @@ import datetime
 from flasgger import swag_from
 import json
 
-from sqlalchemy import Integer, text
+from sqlalchemy import text
 
 from src.database import items, db
 from src.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
