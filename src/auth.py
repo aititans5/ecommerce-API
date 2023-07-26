@@ -74,7 +74,8 @@ def login():
                     'refresh': refresh,
                     'access': access,
                     'username': user.username,
-                    'email': user.email
+                    'email': user.email,
+                    'userid' : user.userid
                 }
 
             }), HTTP_200_OK

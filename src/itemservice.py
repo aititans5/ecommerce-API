@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 import datetime
 from flasgger import swag_from
 import json
+from flask_cors import cross_origin
 
 from sqlalchemy import text
 
@@ -15,6 +16,7 @@ item = Blueprint("item", __name__, url_prefix="/api/v1/item")
 
 @item.get("/getItemList")
 @jwt_required()
+@cross_origin()
 @swag_from('./docs/item/getItemList.yaml')
 def getItemList():
     params = request.args
@@ -32,7 +34,20 @@ def getItemList():
 
     jsonstr = json.dumps(lst, default=json_default, indent=4)
     return jsonstr, HTTP_200_OK
+@item.post('showItems')
+@jwt_required()
+def showItem():
+    categoryid = request.json['categoryid']
+    itemList = db.session.query(items).from_statement(text("SELECT * FROM items where itemid>:value")).params(
+        value=0).all()
+    lst = []
+    for x in itemList:
+        obj = itemcls()
+        obj.setObjFromOrMObj(x)
+        lst.append(obj)
 
+    jsonstr = json.dumps(lst, default=json_default, indent=4)
+    return jsonstr, HTTP_200_OK
 
 @item.post('/addItem')
 @jwt_required()

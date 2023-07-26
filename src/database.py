@@ -32,3 +32,9 @@ class items(db.Model):
     imagename = db.Column(db.String(500), nullable=False)
     price = db.Column(db.Double, nullable=False)
     itemname = db.Column(db.String(500), unique=True, nullable=False)
+
+class Cart(db.Model):
+    userId = db.Column(db.Integer, nullable = False)
+    itemId = db.column(db.Integer, nullable = False)
+    qty = db.column(db.Integer, nullable = False)
+    IsPurchased = db.column(db.Char, nullable = False)
